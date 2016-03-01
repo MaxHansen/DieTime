@@ -1,12 +1,13 @@
-package com.tictactoe.max.dietime.models;
+package com.tictactoe.max.dietime.models.implement;
+
+import com.tictactoe.max.dietime.models.abstraction.IRoll;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by Max on 29-02-2016.
  */
-public class DieCup implements Serializable {
+public class DieCup implements Serializable, IRoll {
     private Dice[] die;
     private final int INITIAL_DIE_AMOUNT = 2;
 
@@ -31,7 +32,7 @@ public class DieCup implements Serializable {
     /**
      * Rolls all the die in the cup.
      */
-    public void RollDie(){
+    public void roll(){
         for (Dice dice : die){
             dice.roll();
         }

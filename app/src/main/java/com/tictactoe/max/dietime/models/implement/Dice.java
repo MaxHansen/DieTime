@@ -1,4 +1,6 @@
-package com.tictactoe.max.dietime.models;
+package com.tictactoe.max.dietime.models.implement;
+
+import com.tictactoe.max.dietime.models.abstraction.IRoll;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -6,7 +8,7 @@ import java.util.Random;
 /**
  * Created by Max on 29-02-2016.
  */
-public class Dice implements Serializable {
+public class Dice implements Serializable, IRoll {
     private int face;
     private Random rand;
 
