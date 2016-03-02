@@ -1,5 +1,6 @@
 package com.tictactoe.max.dietime.models.implement;
 
+import com.tictactoe.max.dietime.models.abstraction.IDieCup;
 import com.tictactoe.max.dietime.models.abstraction.IRoll;
 
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Max on 29-02-2016.
  */
-public class DieCup implements Serializable, IRoll {
+public class DieCup implements Serializable, IDieCup {
     private Dice[] die;
     private final int INITIAL_DIE_AMOUNT = 2;
 
@@ -38,4 +39,12 @@ public class DieCup implements Serializable, IRoll {
         }
     }
 
+    /**
+     * returns all the die.
+     * @return an array of die.
+     */
+    @Override
+    public IRoll[] getAll() {
+        return die;
+    }
 }
