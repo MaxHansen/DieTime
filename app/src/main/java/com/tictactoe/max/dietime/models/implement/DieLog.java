@@ -9,13 +9,13 @@ import java.util.ArrayList;
  * Created by Max on 29-02-2016.
  */
 public class DieLog implements Serializable, IDieLog{
-    private DieLog instance;
+    private static DieLog instance;
     private ArrayList<DieCup> history;
     /**
      * Singleton
      * @return the single instance that will ever be made.
      */
-    public DieLog getInstance(){
+    public static DieLog getInstance(){
         if(instance == null){
             instance = new DieLog();
         }
@@ -36,6 +36,14 @@ public class DieLog implements Serializable, IDieLog{
     @Override
     public void add(DieCup toAdd){
         history.add(toAdd);
+    }
+
+    /**
+     * Clears the history
+     */
+    @Override
+    public void clear() {
+        history.clear();
     }
 
     /**

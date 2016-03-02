@@ -3,6 +3,8 @@ package com.tictactoe.max.dietime.models.implement;
 import com.tictactoe.max.dietime.models.abstraction.IRoll;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by Max on 29-02-2016.
@@ -36,6 +38,10 @@ public class DieCup implements Serializable, IRoll {
         for (Dice dice : die){
             dice.roll();
         }
+    }
+
+    public String getDate(){
+        return DateFormat.getDateTimeInstance().format(new Date());
     }
 
 }

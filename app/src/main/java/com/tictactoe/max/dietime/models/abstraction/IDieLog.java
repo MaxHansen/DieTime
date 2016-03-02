@@ -9,5 +9,6 @@ import java.util.ArrayList;
  */
 public interface IDieLog {
     void add(DieCup cup);
+    void clear();
     ArrayList getAll();
 }
