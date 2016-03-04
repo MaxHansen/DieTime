@@ -5,4 +5,5 @@ package com.tictactoe.max.dietime.models.abstraction;
  */
 public interface IDieCup extends IRoll {
     IRoll[] getAll();
+    void setDieAmount(int amount);
 }
