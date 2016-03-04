@@ -99,11 +99,7 @@ public class HistoryActivity extends AppCompatActivity {
      * This should go back to the DieActivity
      */
     private void goBack(){
-        Intent intent = new Intent();
-        intent.setClass(this, DieActivity.class);
-        Log.d(TAG, "Back button is clicked..");
-        startActivity(intent);
-        Log.d(TAG, "Back to DieActivity..");
+        finish();
     }
 
     /**
@@ -116,13 +112,9 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     class HistoryAdapter extends ArrayAdapter<DieCup>{
-        private ArrayList<DieCup> theDieCups;
-        private ArrayList<Integer> dieImages;
 
         public HistoryAdapter(Context context, int resource, ArrayList<DieCup> theDieCups) {
             super(context, resource, theDieCups);
-            this.theDieCups = theDieCups;
-            dieImages = new ArrayList<>();
         }
 
         private final int[] colours = {
@@ -130,7 +122,7 @@ public class HistoryActivity extends AppCompatActivity {
                 Color.parseColor("#EEEEEE")
         };
 
-        private void addImageToLayout(LinearLayout layout, Context context) {
+        private void addImageToLayout(LinearLayout layout, Context context, ArrayList<Integer> dieImages) {
             ImageView view = new ImageView(context);
             int imageId = View.generateViewId();
             dieImages.add(imageId);
@@ -139,11 +131,11 @@ public class HistoryActivity extends AppCompatActivity {
             view.setImageResource(R.drawable.die2);
         }
 
-        private void setDieImages(int position) {
+        private void setDieImages(DieCup dieCup,View view, ArrayList<Integer> dieImages) {
             int dieNumber = 0;
-            Dice[] die = (Dice[]) theDieCups.get(position).getAll();
+            Dice[] die = (Dice[]) dieCup.getAll();
             for(int id : dieImages){
-                ImageView img = (ImageView) findViewById(id);
+                ImageView img = (ImageView) view.findViewById(id);
                 switch (die[dieNumber].getFace()){
                     case 1:
                         img.setImageResource(R.drawable.die1);
@@ -153,26 +145,25 @@ public class HistoryActivity extends AppCompatActivity {
                         break;
                     case 3:
                         img.setImageResource(R.drawable.die3);
-                        break;
-                    case 4:
-                        img.setImageResource(R.drawable.die4);
-                        break;
-                    case 5:
-                        img.setImageResource(R.drawable.die5);
-                        break;
-                    case 6:
-                        img.setImageResource(R.drawable.die6);
-                        break;
-                }
-                dieNumber++;
-            }
+            break;
+            case 4:
+            img.setImageResource(R.drawable.die4);
+            break;
+            case 5:
+            img.setImageResource(R.drawable.die5);
+            break;
+            case 6:
+            img.setImageResource(R.drawable.die6);
+            break;
+        }
+        dieNumber++;
+    }
         }
 
-        private void setUpImageViews(int position, Context context){
-            LinearLayout dieRow =(LinearLayout)findViewById(R.id.pnlResult);
+        private void setUpImageViews(DieCup dieCup, Context context, LinearLayout dieRow, ArrayList<Integer> dieImages){
             Log.d(TAG, "row added");
-            for (int column = 0; column < theDieCups.get(position).getAll().length; column++) {
-                addImageToLayout(dieRow, context);
+            for (int column = 0; column < dieCup.getAll().length; column++) {
+                addImageToLayout(dieRow, context,dieImages);
                 Log.d(TAG, "image view added");
             }
         }
@@ -186,17 +177,18 @@ public class HistoryActivity extends AppCompatActivity {
                 Log.d("LIST", "Position: " + position + " View created");
             }
             else
-                Log.d("LIST", "Position: " + position + " View Reused");
+            Log.d("LIST", "Position: " + position + " View Reused");
 
-            DieCup dieCup = theDieCups.get(position);
+            ArrayList<Integer> dieImages = new ArrayList<>();
+            DieCup dieCup = getItem(position);
 
+            LinearLayout veiw = (LinearLayout)v.findViewById(R.id.pnlResult);
             v.setBackgroundColor(colours[position % colours.length]);
             //------------Views-------------
             TextView date = (TextView)findViewById(R.id.txtDate);
             //------------------------------
-            setUpImageViews(position, getContext());
-            setDieImages(position);
-
+            setUpImageViews(dieCup, getContext(),veiw,dieImages);
+            setDieImages(dieCup,veiw,dieImages);
 
             //---------set Views--------------
             //date.setText(dieCup.getDate());
