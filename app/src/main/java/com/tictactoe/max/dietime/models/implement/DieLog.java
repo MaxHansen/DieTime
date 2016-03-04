@@ -1,5 +1,6 @@
 package com.tictactoe.max.dietime.models.implement;
 
+import com.tictactoe.max.dietime.models.abstraction.IDieCup;
 import com.tictactoe.max.dietime.models.abstraction.IDieLog;
 
 import java.io.Serializable;
@@ -34,7 +35,7 @@ public class DieLog implements IDieLog{
      * @param toAdd the diecup to add to the history.
      */
     @Override
-    public void add(DieCup toAdd){
+    public void add(IDieCup toAdd){
         history.add(toAdd);
     }
 

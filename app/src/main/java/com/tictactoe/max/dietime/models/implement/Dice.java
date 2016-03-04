@@ -18,6 +18,7 @@ public class Dice implements IRoll {
     public Dice() {
         face = 1;
         rand = new Random();
+
     }
 
     /**

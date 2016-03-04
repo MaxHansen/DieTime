@@ -26,6 +26,7 @@ import com.tictactoe.max.dietime.models.abstraction.IDieCup;
 import com.tictactoe.max.dietime.models.abstraction.IRoll;
 import com.tictactoe.max.dietime.models.implement.Dice;
 import com.tictactoe.max.dietime.models.implement.DieCup;
+import com.tictactoe.max.dietime.models.implement.DieLog;
 
 import java.util.ArrayList;
 
@@ -67,8 +68,6 @@ public class DieActivity extends Activity {
         setUpPnlDie();
         //setDieImages();
         setUpSpnNumbers();
-
-        
         setUpButtons();
     }
 
@@ -204,6 +203,12 @@ public class DieActivity extends Activity {
     }
 
     private void setUpButtons(){
+        btnRoll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRollClick();
+            }
+        });
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +217,19 @@ public class DieActivity extends Activity {
         });
     }
 
+
+    private void onRollClick(){
+        dieCup.roll();
+        setDieImages();
+
+        DieLog.getInstance().add(dieCup);
+        dieCup = new DieCup();
+        dieCup.setDieAmount(dieAmount);
+    }
+
+    /**
+     * This should open the history activity
+     */
     private void onHistoryClick(){
         Intent intent = new Intent();
         intent.setClass(this, HistoryActivity.class);
