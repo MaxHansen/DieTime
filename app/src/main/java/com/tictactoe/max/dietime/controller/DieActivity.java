@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,14 +80,14 @@ public class DieActivity extends AppCompatActivity {
 
             switch (faceValue){
                 case 1 :
-                    Log.d(TAG,"die1 has been set as the resource");
+                    Log.d(TAG, "die1 has been set as the resource");
                     resourceId = R.drawable.die1;
                     break;
                 case 2 :
                     resourceId = R.drawable.die2;
                     break;
                 case 3:
-                    resourceId = R.drawable.die4;
+                    resourceId = R.drawable.die3;
                     break;
                 case 4:
                     resourceId =R.drawable.die4;
@@ -176,6 +177,23 @@ public class DieActivity extends AppCompatActivity {
 
     }
 
+    private void setUpButtons(){
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onHistoryClick();
+            }
+        });
+    }
+
+    private void onHistoryClick(){
+        Intent intent = new Intent();
+        intent.setClass(this, HistoryActivity.class);
+        Log.d(TAG, "History button clicked..");
+        startActivity(intent);
+        Log.d(TAG, "History activity started..");
+    }
+
     /**
      * will set the dieAmount, and rebuild the diePanel
      *
@@ -218,21 +236,6 @@ public class DieActivity extends AppCompatActivity {
         //------------spinners---------
         spnNumbers = (Spinner) findViewById(R.id.spnNumbers);
         //----------------------------
-    }
-
-    private void setUpButtons(){
-        btnHistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onHistoryClick();
-            }
-        });
-    }
-
-    private void onHistoryClick(){
-        Intent intent = new Intent();
-        intent.setClass(this, HistoryActivity.class);
-        startActivity(intent);
     }
 
 }
