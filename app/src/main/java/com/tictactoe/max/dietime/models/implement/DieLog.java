@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * Created by Max on 29-02-2016.
  */
 public class DieLog implements IDieLog{
-    private DieLog instance;
-    private ArrayList<DieCup> history;
+    private static DieLog instance;
+    private ArrayList<IDieCup> history;
     /**
      * Singleton
      * @return the single instance that will ever be made.
