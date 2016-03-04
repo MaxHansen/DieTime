@@ -107,6 +107,8 @@ public class HistoryActivity extends AppCompatActivity {
      */
     private void clear(){
         dieLog.clear();
+        adapter = new HistoryAdapter(this, R.layout.die_cell, dieLog.getAll());
+        lstResult.setAdapter(adapter);
         Log.d(TAG, "Clear Button is clicked");
     }
 
