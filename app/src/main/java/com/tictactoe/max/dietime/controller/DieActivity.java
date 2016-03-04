@@ -1,9 +1,6 @@
 package com.tictactoe.max.dietime.controller;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -70,6 +67,8 @@ public class DieActivity extends Activity {
         //setDieImages();
         setUpSpnNumbers();
 
+        
+        setUpButtons();
     }
 
     /**
@@ -201,6 +200,23 @@ public class DieActivity extends Activity {
         });
         //--------------------------------
 
+    }
+
+    private void setUpButtons(){
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onHistoryClick();
+            }
+        });
+    }
+
+    private void onHistoryClick(){
+        Intent intent = new Intent();
+        intent.setClass(this, HistoryActivity.class);
+        Log.d(TAG, "History button clicked..");
+        startActivity(intent);
+        Log.d(TAG, "History activity started..");
     }
 
     /**

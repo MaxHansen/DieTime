@@ -10,5 +10,6 @@ import java.util.ArrayList;
  */
 public interface IDieLog extends Serializable {
     void add(DieCup cup);
+    void clear();
     ArrayList getAll();
 }

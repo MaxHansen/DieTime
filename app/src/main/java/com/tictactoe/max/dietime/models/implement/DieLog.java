@@ -15,7 +15,7 @@ public class DieLog implements IDieLog{
      * Singleton
      * @return the single instance that will ever be made.
      */
-    public DieLog getInstance(){
+    public static DieLog getInstance(){
         if(instance == null){
             instance = new DieLog();
         }
@@ -36,6 +36,14 @@ public class DieLog implements IDieLog{
     @Override
     public void add(DieCup toAdd){
         history.add(toAdd);
+    }
+
+    /**
+     * Clears the history
+     */
+    @Override
+    public void clear() {
+        history.clear();
     }
 
     /**

@@ -4,6 +4,8 @@ import com.tictactoe.max.dietime.models.abstraction.IDieCup;
 import com.tictactoe.max.dietime.models.abstraction.IRoll;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by Max on 29-02-2016.
@@ -37,6 +39,10 @@ public class DieCup implements IDieCup {
         for (Dice dice : die){
             dice.roll();
         }
+    }
+
+    public String getDate(){
+        return DateFormat.getDateTimeInstance().format(new Date());
     }
 
     /**
