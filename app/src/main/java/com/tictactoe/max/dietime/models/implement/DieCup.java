@@ -44,4 +44,12 @@ public class DieCup implements Serializable, IRoll {
         return DateFormat.getDateTimeInstance().format(new Date());
     }
 
+    /**
+     * returns all the die.
+     * @return an array of die.
+     */
+    @Override
+    public IRoll[] getAll() {
+        return die;
+    }
 }

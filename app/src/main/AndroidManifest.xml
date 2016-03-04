@@ -22,6 +22,7 @@
             android:name=".controller.HistoryActivity"
             android:label="HistoryActivity">
         </activity>
+        
     </application>
 
 </manifest>
