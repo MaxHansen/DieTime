@@ -28,7 +28,7 @@ import com.tictactoe.max.dietime.models.implement.DieCup;
 
 import java.util.ArrayList;
 
-public class DieActivity extends AppCompatActivity {
+public class DieActivity extends Activity {
     //-------------------constants---------------
     private final int MINIMUM_NUMBER_OF_DIE = 2;
     private final int MAXIMUM_NUMBER_OF_DIE = 6;
@@ -46,7 +46,7 @@ public class DieActivity extends AppCompatActivity {
 
     //----------------variables---------------------
     private int dieAmount;
-    private ArrayList<ImageView> dieImages;
+    private ArrayList<Integer> dieImages;
     private IDieCup dieCup;
     //----------------------------------------------
 
@@ -63,9 +63,11 @@ public class DieActivity extends AppCompatActivity {
         dieCup = new DieCup();
         //-----------------------------------------------------------------------
         getWidgets();
-        setUpSpnNumbers();
         setUpPnlDie();
-        setDieImages();
+        //setDieImages();
+        setUpSpnNumbers();
+
+        
         setUpButtons();
     }
 
@@ -73,36 +75,31 @@ public class DieActivity extends AppCompatActivity {
      * This will set the correct image of the dice.
      */
     private void setDieImages() {
-        int dieImagePosition = 0;
-        for(Dice die : (Dice[])dieCup.getAll()){
-            int resourceId = R.drawable.die4;
-            int faceValue = die.getFace();
-
-            switch (faceValue){
-                case 1 :
-                    Log.d(TAG, "die1 has been set as the resource");
-                    resourceId = R.drawable.die1;
+        int dieNumber = 0;
+        Dice[] die = (Dice[]) dieCup.getAll();
+        for(int id : dieImages){
+            ImageView img = (ImageView) findViewById(id);
+            switch (die[dieNumber].getFace()){
+                case 1:
+                    img.setImageResource(R.drawable.die1);
                     break;
-                case 2 :
-                    resourceId = R.drawable.die2;
+                case 2:
+                    img.setImageResource(R.drawable.die2);
                     break;
                 case 3:
-                    resourceId = R.drawable.die3;
+                    img.setImageResource(R.drawable.die3);
                     break;
                 case 4:
-                    resourceId =R.drawable.die4;
+                    img.setImageResource(R.drawable.die4);
                     break;
                 case 5:
-                    resourceId = R.drawable.die5;
+                    img.setImageResource(R.drawable.die5);
                     break;
                 case 6:
-                    resourceId = R.drawable.die6;
+                    img.setImageResource(R.drawable.die6);
                     break;
             }
-            ImageView image = dieImages.get(dieImagePosition);
-            Log.d(TAG, "we get hold of the image view" + image);
-            image.setImageResource(resourceId);
-            dieImagePosition++;
+            dieNumber++;
         }
     }
 
@@ -113,7 +110,7 @@ public class DieActivity extends AppCompatActivity {
     private void setUpPnlDie() {
         //clears the views already in the linear layout
         pnlDie.removeAllViews();
-
+        dieImages.clear();
         Log.d(TAG, "The views removed");
         int totalImages = 0;
         for (int row = 0; row < MAXIMUM_NUMBER_OF_ROWS && totalImages < dieAmount; row++) {
@@ -134,8 +131,11 @@ public class DieActivity extends AppCompatActivity {
      */
     private void addImageToLayout(LinearLayout layout) {
         ImageView view = new ImageView(this);
+        int imageId = View.generateViewId();
+        dieImages.add(imageId);
+        view.setId(imageId);
         layout.addView(view);
-        dieImages.add(view);
+        view.setImageResource(R.drawable.die2);
     }
 
     /**
@@ -201,7 +201,9 @@ public class DieActivity extends AppCompatActivity {
      */
     private void setDieAmount(int position) {
         dieAmount = (Integer) spnNumbers.getAdapter().getItem(position);
+        dieCup.setDieAmount(dieAmount);
         setUpPnlDie();
+        setDieImages();
     }
 
     /**
