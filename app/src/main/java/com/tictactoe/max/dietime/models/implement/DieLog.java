@@ -1,5 +1,6 @@
 package com.tictactoe.max.dietime.models.implement;
 
+import com.tictactoe.max.dietime.models.abstraction.IDieCup;
 import com.tictactoe.max.dietime.models.abstraction.IDieLog;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 public class DieLog implements Serializable, IDieLog{
     private static DieLog instance;
-    private ArrayList<DieCup> history;
+    private ArrayList<IDieCup> history;
     /**
      * Singleton
      * @return the single instance that will ever be made.
@@ -34,7 +35,7 @@ public class DieLog implements Serializable, IDieLog{
      * @param toAdd the diecup to add to the history.
      */
     @Override
-    public void add(DieCup toAdd){
+    public void add(IDieCup toAdd){
         history.add(toAdd);
     }
 

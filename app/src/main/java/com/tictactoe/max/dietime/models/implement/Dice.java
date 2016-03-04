@@ -17,7 +17,8 @@ public class Dice implements Serializable, IRoll {
      */
     public Dice() {
         face = 1;
-        rand = new Random(6);
+        rand = new Random();
+
     }
 
     /**
