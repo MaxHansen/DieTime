@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Max on 29-02-2016.
  */
-public class DieCup implements Serializable, IDieCup {
+public class DieCup implements IDieCup {
     private Dice[] die;
     private final int INITIAL_DIE_AMOUNT = 2;
 

@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Created by Max on 29-02-2016.
  */
-public class Dice implements Serializable, IRoll {
+public class Dice implements IRoll {
     private int face;
     private Random rand;
 
@@ -17,7 +17,7 @@ public class Dice implements Serializable, IRoll {
      */
     public Dice() {
         face = 1;
-        rand = new Random(6);
+        rand = new Random();
     }
 
     /**

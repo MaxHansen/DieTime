@@ -38,6 +38,9 @@ public class DieActivity extends Activity {
     private final int MAXIMUM_NUMBER_OF_ROWS = 2;
     private final int MAXIMUM_NUMBER_OF_COLLUMNS = 3;
     private final String TAG = "DieActivity";
+    private final String DIE_CUP = "dieCup";
+    private final String DIE_AMOUNT = "dieAmount";
+    private final String DIE_IMAGES = "dieImages";
     //----------------------------------------------
 
     //---------------Views--------------------------
@@ -60,11 +63,8 @@ public class DieActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_die);
 
-        //-------------These are values, that we have to get from the bundle-----
-        dieAmount = 2;
-        dieImages = new ArrayList<>(); // when this is recieved from the bundle the images should be added to all the ImageViews.
-        dieCup = new DieCup();
-        //-----------------------------------------------------------------------
+        getSavedInstances(savedInstanceState);
+
         getWidgets();
         setUpPnlDie();
         //setDieImages();
@@ -72,6 +72,29 @@ public class DieActivity extends Activity {
 
     }
 
+    /**
+     * this gets the saves instances from the bundle, unless it's the first run.
+     * @param savedInstanceState the saved instancestate.
+     */
+    private void getSavedInstances(Bundle savedInstanceState) {
+        if(savedInstanceState == null) {
+            dieAmount = 2;
+            dieImages = new ArrayList<>(); // when this is recieved from the bundle the images should be added to all the ImageViews.
+            dieCup = new DieCup();
+        }else{
+            dieAmount = savedInstanceState.getInt(DIE_AMOUNT);
+            dieImages = (ArrayList<Integer>) savedInstanceState.getSerializable(DIE_IMAGES);
+            dieCup = (IDieCup) savedInstanceState.getSerializable(DIE_CUP);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(DIE_AMOUNT, dieAmount);
+        outState.putSerializable(DIE_CUP,dieCup);
+        outState.putSerializable(DIE_IMAGES,dieImages);
+    }
 
     /**
      * This will set the correct image of the dice.

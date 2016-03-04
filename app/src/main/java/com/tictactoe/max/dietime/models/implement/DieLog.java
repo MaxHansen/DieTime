@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Max on 29-02-2016.
  */
-public class DieLog implements Serializable, IDieLog{
+public class DieLog implements IDieLog{
     private DieLog instance;
     private ArrayList<DieCup> history;
     /**
