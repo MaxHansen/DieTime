@@ -98,7 +98,7 @@ public class DieActivity extends Activity {
     /**
      * This will set the correct image of the dice.
      */
-    private void setDieImages() {
+    private synchronized void setDieImages() {
         int dieNumber = 0;
         Dice[] die = (Dice[]) dieCup.getAll();
         for(int id : dieImages){
@@ -132,7 +132,7 @@ public class DieActivity extends Activity {
      * This method will set up the pnlDie panel.
      * in order to access all the imageviews you can use the
      */
-    private void setUpPnlDie() {
+    private synchronized void setUpPnlDie() {
         //clears the views already in the linear layout
         pnlDie.removeAllViews();
         dieImages.clear();
@@ -154,7 +154,7 @@ public class DieActivity extends Activity {
      * so they can be changed later
      * @param layout the layout, to add an imageview to.
      */
-    private void addImageToLayout(LinearLayout layout) {
+    private synchronized void addImageToLayout(LinearLayout layout) {
         ImageView view = new ImageView(this);
         int imageId = View.generateViewId();
         dieImages.add(imageId);
@@ -168,7 +168,7 @@ public class DieActivity extends Activity {
      * @param item the layout to add to.
      * @return the row that was created
      */
-    private LinearLayout addRowLayout(LinearLayout item) {
+    private synchronized LinearLayout addRowLayout(LinearLayout item) {
         LinearLayout dieRow = new LinearLayout(this);
         dieRow.setOrientation(LinearLayout.HORIZONTAL);
         item.addView(dieRow);
@@ -218,7 +218,7 @@ public class DieActivity extends Activity {
     }
 
 
-    private void onRollClick(){
+    private synchronized void onRollClick(){
         dieCup.roll();
         setDieImages();
 
@@ -230,7 +230,7 @@ public class DieActivity extends Activity {
     /**
      * This should open the history activity
      */
-    private void onHistoryClick(){
+    private synchronized void onHistoryClick(){
         Intent intent = new Intent();
         intent.setClass(this, HistoryActivity.class);
         Log.d(TAG, "History button clicked..");
@@ -243,7 +243,7 @@ public class DieActivity extends Activity {
      *
      * @param position the position in the adapter, where the value is.
      */
-    private void setDieAmount(int position) {
+    private synchronized void setDieAmount(int position) {
         dieAmount = (Integer) spnNumbers.getAdapter().getItem(position);
         dieCup.setDieAmount(dieAmount);
         setUpPnlDie();
@@ -254,7 +254,7 @@ public class DieActivity extends Activity {
      * creates an array of intergers, with the values that correspond to the amount of die, that can be picked
      * @return an array of integers.
      */
-    private Integer[] getSpinnerNumbers() {
+    private synchronized Integer[] getSpinnerNumbers() {
         //gets the amount of die allowed in the cup.
         int dieAmount = MAXIMUM_NUMBER_OF_DIE - MINIMUM_NUMBER_OF_DIE;
         Integer[] result = new Integer[dieAmount + 1];
