@@ -191,7 +191,8 @@ public class HistoryActivity extends AppCompatActivity {
                 Log.d("LIST", "Position: " + position + " View created");
             } else
                 Log.d("LIST", "Position: " + position + " View Reused");
-
+            LinearLayout view = (LinearLayout) v.findViewById(R.id.pnlResult);
+            view.removeAllViews();
             ArrayList<Integer> dieImages = new ArrayList<>();
             DieCup dieCup = getItem(position);
 
@@ -201,7 +202,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
             //------------Views-------------
-            LinearLayout view = (LinearLayout) v.findViewById(R.id.pnlResult);
+
             TextView date = (TextView) v.findViewById(R.id.txtDate);
             //------------------------------
             setUpImageViews(dieCup, getContext(), view, dieImages);

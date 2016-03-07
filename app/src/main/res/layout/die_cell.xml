@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/pnlResult">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Date"
-            android:id="@+id/txtDate" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Date"
+        android:id="@+id/txtDate" />
 
 </LinearLayout>
