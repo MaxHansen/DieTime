@@ -1,9 +1,11 @@
 package com.tictactoe.max.dietime.controller;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,8 +44,6 @@ public class HistoryActivity extends AppCompatActivity {
     LinearLayout pnlHistory;
     ListView lstResult;
     LinearLayout pnlResult;
-    private HistoryAdapter adapter;
-    private IDieLog dieLog;
     //----------------------------------------------
 
     @Override
@@ -64,7 +64,6 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //fa.notifyDataSetChanged();
     }
 
     private void getWidgets(){
@@ -115,7 +114,12 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
-    class HistoryAdapter extends ArrayAdapter<DieCup>{
+    class HistoryAdapter extends ArrayAdapter<DieCup> {
+
+        private final int[] colours = {
+                Color.parseColor("#A2D8EB"),
+                Color.parseColor("#EEEEEE")
+        };
 
         public HistoryAdapter(Context context, int resource, ArrayList<DieCup> theDieCups) {
             super(context, resource, theDieCups);
@@ -123,18 +127,35 @@ public class HistoryActivity extends AppCompatActivity {
 
         /**
          * Sets the layout for an imageview
+         *
          * @param img
          */
         private void setImageViewLayout(ImageView img) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            if(isLandscape()) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
 
-            params.weight = 0.5f;
-            params.gravity = Gravity.CENTER;
-            img.setLayoutParams(params);
+                params.weight = 0.5f;
+                params.gravity = Gravity.CENTER;
+                img.setLayoutParams(params);
+            }else {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(125, 125);
+
+                params.weight = 0.5f;
+                params.gravity = Gravity.CENTER;
+                img.setLayoutParams(params);
+            }
         }
 
-        private void addImageToLayout(LinearLayout layout, Context context, ArrayList<Integer> dieImages) {
+        /**
+         * Used to check if the device is turned
+         * @return boolean if the orientation is horizontal or not
+         */
+        private boolean isLandscape()
+        {
+            Configuration config = getResources().getConfiguration();
+            return config.orientation == Configuration.ORIENTATION_LANDSCAPE;
+        }
+
         private synchronized void addImageToLayout(LinearLayout layout, Context context, ArrayList<Integer> dieImages) {
             ImageView view = new ImageView(context);
             int imageId = View.generateViewId();
@@ -144,13 +165,13 @@ public class HistoryActivity extends AppCompatActivity {
             view.setImageResource(R.drawable.die2);
         }
 
+
         private void setDieImages(DieCup dieCup, View view, ArrayList<Integer> dieImages) {
-        private synchronized void setDieImages(DieCup dieCup,View view, ArrayList<Integer> dieImages) {
             int dieNumber = 0;
             Dice[] die = (Dice[]) dieCup.getAll();
             for (int id : dieImages) {
                 ImageView img = (ImageView) view.findViewById(id);
-                setImageViewLayout(img);
+
                 switch (die[dieNumber].getFace()) {
                     case 1:
                         img.setImageResource(R.drawable.one);
@@ -171,6 +192,7 @@ public class HistoryActivity extends AppCompatActivity {
                         img.setImageResource(R.drawable.six);
                         break;
                 }
+                setImageViewLayout(img);
                 dieNumber++;
             }
         }
@@ -194,16 +216,14 @@ public class HistoryActivity extends AppCompatActivity {
                 Log.d("LIST", "Position: " + position + " View Reused");
             LinearLayout view = (LinearLayout) v.findViewById(R.id.pnlResult);
             view.removeAllViews();
+
             ArrayList<Integer> dieImages = new ArrayList<>();
             DieCup dieCup = getItem(position);
 
-
-            v.setBackgroundColor(colours[position % colours.length]);
-            pnlHistory.setBackground(Drawable.createFromPath("@drawable/background"));
-
+            //v.setBackgroundColor(colours[position % colours.length]);
+            //pnlHistory.setBackground(Drawable.createFromPath("@drawable/background"));
 
             //------------Views-------------
-
             TextView date = (TextView) v.findViewById(R.id.txtDate);
             //------------------------------
             setUpImageViews(dieCup, getContext(), view, dieImages);
@@ -211,7 +231,6 @@ public class HistoryActivity extends AppCompatActivity {
 
             //---------set Views--------------
             date.setText(dieCup.getDate() + ":");
-
             return v;
         }
 
