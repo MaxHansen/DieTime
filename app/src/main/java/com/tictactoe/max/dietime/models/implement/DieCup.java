@@ -11,6 +11,7 @@ import java.util.Date;
  * Created by Max on 29-02-2016.
  */
 public class DieCup implements IDieCup {
+    private String date;
     private Dice[] die;
     private final int INITIAL_DIE_AMOUNT = 2;
 
@@ -41,8 +42,21 @@ public class DieCup implements IDieCup {
         }
     }
 
+    /**
+     * Gets the date/time
+     * @return a string containing the date/time
+     */
     public String getDate(){
-        return DateFormat.getDateTimeInstance().format(new Date());
+        return date;
+    }
+
+    /**
+     * the is used to set the date
+     * @param date
+     */
+    @Override
+    public void setDate(String date) {
+        this.date=date;
     }
 
     /**

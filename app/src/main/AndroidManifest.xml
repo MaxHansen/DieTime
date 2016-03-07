@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".controller.HistoryActivity"
-            android:label="HistoryActivity">
+            android:label="HistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         
     </application>
