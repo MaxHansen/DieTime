@@ -8,5 +8,6 @@ import java.io.Serializable;
 public interface IDieCup extends IRoll, Serializable {
     IRoll[] getAll();
     String getDate();
+    void setDate(String date);
     void setDieAmount(int amount);
 }

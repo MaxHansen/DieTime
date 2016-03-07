@@ -2,15 +2,13 @@ package com.tictactoe.max.dietime.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,17 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.tictactoe.max.dietime.R;
 import com.tictactoe.max.dietime.models.abstraction.IDieCup;
-import com.tictactoe.max.dietime.models.abstraction.IRoll;
 import com.tictactoe.max.dietime.models.implement.Dice;
 import com.tictactoe.max.dietime.models.implement.DieCup;
 import com.tictactoe.max.dietime.models.implement.DieLog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DieActivity extends Activity {
     //-------------------constants---------------
@@ -60,7 +56,13 @@ public class DieActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_die);
+        Log.d(TAG, "onCreate - Orientation = " + (isLandscape() ? "Horizontal" : "Vertical"));
+        if(isLandscape()){
+            setContentView(R.layout.activity_die_horizontal);
+        }else{
+            setContentView(R.layout.activity_die);
+        }
+
 
         getSavedInstances(savedInstanceState);
 
@@ -69,6 +71,7 @@ public class DieActivity extends Activity {
         //setDieImages();
         setUpSpnNumbers();
         setUpButtons();
+
     }
 
     /**
@@ -96,33 +99,57 @@ public class DieActivity extends Activity {
     }
 
     /**
+     * This should set the layout for an imageview
+     * @param img
+     */
+    private void setImageViewLayout(ImageView img){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT );
+
+
+        params.weight = 1.0f;
+        params.gravity = Gravity.CENTER;
+        params.setMargins(5, 10, 5, 0);
+        img.setLayoutParams(params);
+
+        if(isLandscape()){
+            params.setMargins(5,5,5,0);
+            img.setMaxHeight(225);
+            img.setMaxWidth(225);
+            img.setAdjustViewBounds(true);
+        }
+    }
+
+    /**
      * This will set the correct image of the dice.
      */
-    private synchronized void setDieImages() {
+    private void setDieImages() {
         int dieNumber = 0;
         Dice[] die = (Dice[]) dieCup.getAll();
         for(int id : dieImages){
             ImageView img = (ImageView) findViewById(id);
+            setImageViewLayout(img);
             switch (die[dieNumber].getFace()){
                 case 1:
-                    img.setImageResource(R.drawable.die1);
+                    img.setImageResource(R.drawable.one);
                     break;
                 case 2:
-                    img.setImageResource(R.drawable.die2);
+                    img.setImageResource(R.drawable.two);
                     break;
                 case 3:
-                    img.setImageResource(R.drawable.die3);
+                    img.setImageResource(R.drawable.three);
                     break;
                 case 4:
-                    img.setImageResource(R.drawable.die4);
+                    img.setImageResource(R.drawable.four);
                     break;
                 case 5:
-                    img.setImageResource(R.drawable.die5);
+                    img.setImageResource(R.drawable.five);
                     break;
                 case 6:
-                    img.setImageResource(R.drawable.die6);
+                    img.setImageResource(R.drawable.six);
                     break;
             }
+
             dieNumber++;
         }
     }
@@ -132,7 +159,7 @@ public class DieActivity extends Activity {
      * This method will set up the pnlDie panel.
      * in order to access all the imageviews you can use the
      */
-    private synchronized void setUpPnlDie() {
+    private void setUpPnlDie() {
         //clears the views already in the linear layout
         pnlDie.removeAllViews();
         dieImages.clear();
@@ -150,17 +177,17 @@ public class DieActivity extends Activity {
     }
 
     /**
-     * this will add an imageView to the given layout, it will then save a refference to the views,
+     * this will add an imageView to the given layout, it will then save a reference to the views,
      * so they can be changed later
      * @param layout the layout, to add an imageview to.
      */
-    private synchronized void addImageToLayout(LinearLayout layout) {
+    private void addImageToLayout(LinearLayout layout) {
         ImageView view = new ImageView(this);
         int imageId = View.generateViewId();
         dieImages.add(imageId);
         view.setId(imageId);
         layout.addView(view);
-        view.setImageResource(R.drawable.die2);
+        view.setImageResource(R.drawable.two);
     }
 
     /**
@@ -168,7 +195,7 @@ public class DieActivity extends Activity {
      * @param item the layout to add to.
      * @return the row that was created
      */
-    private synchronized LinearLayout addRowLayout(LinearLayout item) {
+    private LinearLayout addRowLayout(LinearLayout item) {
         LinearLayout dieRow = new LinearLayout(this);
         dieRow.setOrientation(LinearLayout.HORIZONTAL);
         item.addView(dieRow);
@@ -181,7 +208,7 @@ public class DieActivity extends Activity {
     private void setUpSpnNumbers() {
         //---------set up numbers----------
         Integer[] numbers = getSpinnerNumbers();
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, numbers);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, R.layout.spinner_layout, numbers);
 
         spnNumbers.setAdapter(adapter);
         //---------------------------------
@@ -202,6 +229,9 @@ public class DieActivity extends Activity {
 
     }
 
+    /**
+     * Sets up the buttons
+     */
     private void setUpButtons(){
         btnRoll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,9 +247,14 @@ public class DieActivity extends Activity {
         });
     }
 
-
+    /**
+     * When the button roll is clicked, it will set a date, and roll the dices
+     */
     private synchronized void onRollClick(){
+    
+        dieCup.setDate(new SimpleDateFormat("hh:mm:ss").format(new Date()));
         dieCup.roll();
+        setRollSound();
         setDieImages();
 
         DieLog.getInstance().add(dieCup);
@@ -230,7 +265,7 @@ public class DieActivity extends Activity {
     /**
      * This should open the history activity
      */
-    private synchronized void onHistoryClick(){
+    private void onHistoryClick(){
         Intent intent = new Intent();
         intent.setClass(this, HistoryActivity.class);
         Log.d(TAG, "History button clicked..");
@@ -239,11 +274,22 @@ public class DieActivity extends Activity {
     }
 
     /**
+     * This method will get a sound file and play it
+     */
+    public void setRollSound(){
+    Log.d(TAG, "Initializing sounds..");
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.rollsound);
+        Log.d(TAG, "Playing sound");
+        mp.start();
+
+    }
+
+    /**
      * will set the dieAmount, and rebuild the diePanel
      *
      * @param position the position in the adapter, where the value is.
      */
-    private synchronized void setDieAmount(int position) {
+    private void setDieAmount(int position) {
         dieAmount = (Integer) spnNumbers.getAdapter().getItem(position);
         dieCup.setDieAmount(dieAmount);
         setUpPnlDie();
@@ -254,7 +300,7 @@ public class DieActivity extends Activity {
      * creates an array of intergers, with the values that correspond to the amount of die, that can be picked
      * @return an array of integers.
      */
-    private synchronized Integer[] getSpinnerNumbers() {
+    private Integer[] getSpinnerNumbers() {
         //gets the amount of die allowed in the cup.
         int dieAmount = MAXIMUM_NUMBER_OF_DIE - MINIMUM_NUMBER_OF_DIE;
         Integer[] result = new Integer[dieAmount + 1];
@@ -282,6 +328,16 @@ public class DieActivity extends Activity {
         //------------spinners---------
         spnNumbers = (Spinner) findViewById(R.id.spnNumbers);
         //----------------------------
+    }
+
+    /**
+     * Used to check if the device is turned
+     * @return boolean if the orientation is horizontal or not
+     */
+    private boolean isLandscape()
+    {
+        Configuration config = getResources().getConfiguration();
+        return config.orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
 }
